@@ -30,11 +30,16 @@ Departed(mac string,room string)
 
 On the device use the bin/devicepresence binary (or build your own) and run as follows
 
-./devicepresence --room=name
+./devicepresence --room=name --devices=./devices
+
+### Flags
+
+--room (string): This is a identifier for the room name, doesn't matter so long as it's meaningful to you
+--devices (string, file path): Full file path and file name to a file that has a list of bluetooth mac's to scan for, one per line
 
 ## Client Configuration
 
 There are possibly two types of configuration necessary 
 
-1) Device list, in the root name a file "devices" with a list of mac addresses to monitor for, one per line
+1) Device list, in the root name a file "devices" (or configure with flag) with a list of mac addresses to monitor for, one per line
 2) Whatever specific driver configuration is necessary

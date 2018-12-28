@@ -44,7 +44,7 @@ func main() {
 func setup(){
 	
  flag.StringVar(&room, "room","default", "Room Name")	
- flag.StringVar(&device_file, "device","./devices", "Device File Location")	
+ flag.StringVar(&device_file, "devices","./devices", "Device File Location")	
  //flag.StringVar(&pos, "pos","0:0", "Room Position (4x4 Grid)")	
  
  flag.Parse()

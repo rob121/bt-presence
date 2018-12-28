@@ -4,9 +4,9 @@ This code allows you to setup bluetooth nodes on your network that detect which 
 
 ## Building 
 
-This is used to build for a raspberry pi
+This is used to build for a raspberry pi, optionally use the util/build file which contains this command
 ```
-env GOOS=linux GOARCH=arm GOARM=5 go build -o discovery-pi
+env GOOS=linux GOARCH=arm GOARM=5 go build -o devicepresence
 ```
 
 ## Web Interface

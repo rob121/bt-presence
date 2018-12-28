@@ -11,7 +11,12 @@ env GOOS=linux GOARCH=arm GOARM=5 go build -o devicepresence
 
 ## Web Interface
 
-By default there is a web interface exposed on port 15784 that lets you see nodes, etc.
+By default there is a web interface exposed on port 15784, that lets you see nodes, etc.
+
+Access it by going to
+
+http://ip:15784/manage
+
 
 ## Operating Rationale
 

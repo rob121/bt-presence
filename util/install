@@ -10,3 +10,5 @@ cp -R ../www $IPATH/
 
 ## This is for hubitat
 cp -R ../drivers/hubitat_plugin/config.json $IPATH/hubitat_config.json
+cp ./init /etc/init.d/devicepresence
+cp ./device $IPATH/

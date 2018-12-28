@@ -1,0 +1,15 @@
+#!/bin/sh
+
+
+echo "Building"
+
+env GOOS=linux GOARCH=arm GOARM=5 go build -o discovery-pi 
+
+
+for IP in 192.168.1.211 192.168.1.212 192.168.1.213; do
+
+echo "Sending to $IP"
+
+scp -i ~/.ssh/id_rsa_pi discovery-pi pi@$IP:/home/pi/
+#scp -i ~/.ssh/id_rsa_pi -r www pi@$IP:/home/pi/
+done

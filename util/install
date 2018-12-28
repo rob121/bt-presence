@@ -2,11 +2,11 @@
 
 ## Run this from the project root, ie sh util/install
 
-PATH=/opt/devicepresence
+IPATH=/opt/devicepresence
 
-mkdir $PATH
-cp ../bin/devicepresence $PATH/
-cp -R ../www $PATH/
+mkdir $IPATH
+cp ../bin/devicepresence $IPATH/
+cp -R ../www $IPATH/
 
 ## This is for hubitat
-cp -R ../drivers/hubitat_plugin/config.json $PATH/hubitat_config.json
+cp -R ../drivers/hubitat_plugin/config.json $IPATH/hubitat_config.json

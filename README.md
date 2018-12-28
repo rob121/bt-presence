@@ -9,6 +9,10 @@ This is used to build for a raspberry pi, optionally use the util/build file whi
 env GOOS=linux GOARCH=arm GOARM=5 go build -o devicepresence
 ```
 
+## Install 
+
+There is an install script in util that will copy everything where it needs to go, for a linux/raspi 
+
 ## Web Interface
 
 By default there is a web interface exposed on port 15784, that lets you see nodes, etc.

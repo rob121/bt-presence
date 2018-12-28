@@ -94,7 +94,7 @@ for {
 
 func devices_list() ([]string, error) { 
 	
-  path := "./devices"
+  path := device_file
 
   file, err := os.Open(path)
   if err != nil {

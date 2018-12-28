@@ -12,6 +12,7 @@ var peers chan string
 var rssi chan string
 var peer_list map[string]uint32
 var master_host string
+var device_file string
 var power_rating map[string][]Device
 var room string
 var pos string
@@ -42,8 +43,9 @@ func main() {
 
 func setup(){
 	
- flag.StringVar(&room, "room","room", "Room Name")	
- flag.StringVar(&pos, "pos","0:0", "Room Position (4x4 Grid)")	
+ flag.StringVar(&room, "room","default", "Room Name")	
+ flag.StringVar(&device_file, "device","./devices", "Device File Location")	
+ //flag.StringVar(&pos, "pos","0:0", "Room Position (4x4 Grid)")	
  
  flag.Parse()
  

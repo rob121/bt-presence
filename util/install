@@ -1,0 +1,12 @@
+#!/bin/bash
+
+## Run this from the project root, ie sh util/install
+
+PATH=/opt/devicepresence
+
+mkdir $PATH
+cp ../bin/devicepresence $PATH/
+cp -R ../www $PATH/
+
+## This is for hubitat
+cp -R ../drivers/hubitat_plugin/config.json $PATH/hubitat_config.json

@@ -34,8 +34,8 @@ On the device use the bin/devicepresence binary (or build your own) and run as f
 
 ### Flags
 
---room (string): This is a identifier for the room name, doesn't matter so long as it's meaningful to you
---devices (string, file path): Full file path and file name to a file that has a list of bluetooth mac's to scan for, one per line
+* --room (string): This is a identifier for the room name, doesn't matter so long as it's meaningful to you
+* --devices (string, file path): Full file path and file name to a file that has a list of bluetooth mac's to scan for, one per line
 
 ## Client Configuration
 

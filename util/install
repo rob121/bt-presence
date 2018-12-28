@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ## Run this from the project root, ie sh util/install
 

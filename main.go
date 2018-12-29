@@ -45,7 +45,7 @@ func setup(){
  flag.StringVar(&room, "room","default", "Room Name")	
  flag.StringVar(&device_file, "devices","./devices", "Device File Location")	
 
- pos = "1,1" //this is set for future position capability
+ pos = "1:1" //this is set for future position capability
 
  
  flag.Parse()

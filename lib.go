@@ -4,6 +4,7 @@ import (
  
     "net"
     "time"
+    "fmt"
 )
 
 
@@ -47,7 +48,11 @@ func master_address() string{
 	    master = true;
 	    slave = false;
 	    
+	    fmt.Println("I AM THE MASTER")
+	    
     }else{
+	    
+	     fmt.Println("I AM THE SLAVE")
 	    
 	    master = false;
 	    slave = true;

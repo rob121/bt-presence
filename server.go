@@ -39,8 +39,8 @@ func gui_handler(w http.ResponseWriter, r *http.Request) {
 	
 	//if this is a slave, send to the master
 	if(master_host!="" && master_host!=getoutboundip()){
-		
-		w.Header().Set("Location","http://"+master_host+":15784/manage")
+	    fmt.Println("I am not the master, redirecting to master")
+		http.Redirect(w, r, "http://"+master_host+":15784/manage", 302)
 		return
 	}
 	

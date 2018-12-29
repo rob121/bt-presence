@@ -25,8 +25,6 @@ func discover_peers(){
 	
 	//send this client to peer_handler, use discover to get the others on the network
 	
-	peers <- Host{Address: getoutboundip(),Uptime: uptime(),Room: room}
-	
 	
 	go peer_handler() //notifcation of peers found!ß
 	
@@ -39,13 +37,13 @@ func discover_peers(){
 	fmt.Println("Scanning for 10 seconds to find LAN peers")
 	// discover peers
 	
-	uptime := strconv.Itoa(uptime()) //pass along each client uptime, for electing master
+	uptm := strconv.Itoa(uptime()) //pass along each client uptime, for electing master
 	
 	
 	
 	discoveries, err := peerdiscovery.Discover(peerdiscovery.Settings{
 		Limit:     -1,
-		Payload:   []byte(room+"|"+uptime),
+		Payload:   []byte(room+"|"+uptm),
 		Delay:     800 * time.Millisecond,
 		TimeLimit: time.Duration(timelimit) * time.Second,
 	})
@@ -59,6 +57,8 @@ func discover_peers(){
 		if len(discoveries) > 0 {
 			
 			fmt.Printf("Found %d other nodes\n", len(discoveries))
+			
+			peers <- Host{Address: getoutboundip(),Uptime: uptime(),Room: room}//send this machine
 			
 			for _, d := range discoveries {
 				
@@ -102,13 +102,13 @@ func peer_handler(){
     select {
     case host := <-peers:
     
-        fmt.Printf("Found '%s' with payload '%s'\n", host.Address, host.Room)
+        fmt.Printf("Found '%s' with payload '%s' and uptime of '%d'\n", host.Address, host.Room,host.Uptime)
 
         peer_list[host.Address] = host
         master_address()// sort out who the master is
  
     }
-    time.Sleep(500 * time.Millisecond)
+    time.Sleep(100 * time.Millisecond)
  }
 	
 	

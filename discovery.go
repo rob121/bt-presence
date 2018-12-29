@@ -5,45 +5,86 @@ import (
 	"log"
 	"time"
 	"net"
+	"strconv"
+	"strings"
     "encoding/binary"
    	"github.com/schollz/peerdiscovery"
 )
 
 
+
+type Host struct{
+	
+	Address string
+	Uptime int
+	Room string
+}
+
 func discover_peers(){
 	
-	go peer_handler()
 	
-	timelimit := 3
+	//send this client to peer_handler, use discover to get the others on the network
+	
+	peers <- Host{Address: getoutboundip(),Uptime: uptime(),Room: room}
+	
+	
+	go peer_handler() //notifcation of peers found!ß
+	
+	ut := 0
+	timelimit := 1
 	loop := 0
 	
 	for {
-	 fmt.Println("Scanning for 10 seconds to find LAN peers")
+	 
+	fmt.Println("Scanning for 10 seconds to find LAN peers")
 	// discover peers
+	
+	uptime := strconv.Itoa(uptime()) //pass along each client uptime, for electing master
+	
+	
+	
 	discoveries, err := peerdiscovery.Discover(peerdiscovery.Settings{
 		Limit:     -1,
-		Payload:   []byte(room),
+		Payload:   []byte(room+"|"+uptime),
 		Delay:     800 * time.Millisecond,
 		TimeLimit: time.Duration(timelimit) * time.Second,
 	})
+
+    
 
 	// print out results
 	if err != nil {
 		log.Fatal(err)
 	} else {
 		if len(discoveries) > 0 {
+			
 			fmt.Printf("Found %d other nodes\n", len(discoveries))
-			for i, d := range discoveries {
+			
+			for _, d := range discoveries {
 				
-				peers <- d.Address //send to channel
-				fmt.Printf("%d) '%s' with payload '%s'\n", i, d.Address, d.Payload)
-			}
+				//peers <- d.Address //send to channel peers for notifcation in peer_handlers
+				ut = 0
+				
+				payload := string(d.Payload)
+				
+				parts := strings.Split(payload,"|")
+				
+				if(len(parts)>1){
+				
+				ut, _ = strconv.Atoi(parts[1])
+				
+				}
+				
+				peers <- Host{Address: d.Address,Uptime: ut,Room: parts[0]}
+			
+				
+				}
 		} else {
-			fmt.Println("Found no devices. You need to run this on another computer at the same time.")
+			fmt.Println("Found no other devices. You need to run this on another computer at the same time.")
 		}
 	}
 	loop++
-	if(loop>20){
+	if(loop>100){
 		
 		timelimit = 180 
 		
@@ -59,18 +100,15 @@ func peer_handler(){
 	 //go device_poller() //uncomment when ready
  for {
     select {
-    case ip := <-peers:
+    case host := <-peers:
     
-        resp,_,_ := net.ParseCIDR(ip+"/30")
-        peer_list[ip] = ip2int(resp)
-        //fmt.Println("received message", ip)
-        //fmt.Println(peer_list)
-        
-        master_address()
-        //fmt.Printf("Master address %s",master)
-   
+        fmt.Printf("Found '%s' with payload '%s'\n", host.Address, host.Room)
+
+        peer_list[host.Address] = host
+        master_address()// sort out who the master is
+ 
     }
-     time.Sleep(1 * time.Second)
+    time.Sleep(500 * time.Millisecond)
  }
 	
 	

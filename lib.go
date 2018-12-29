@@ -3,10 +3,16 @@ package main
 import (
  
     "net"
+    "time"
 )
 
 
-func GetOutboundIP() string {
+func uptime() int {
+    return int(time.Since(startTime).Seconds())
+}
+
+
+func getoutboundip() string {
     conn, err := net.Dial("udp", "8.8.8.8:80")
     if err != nil {
             
@@ -20,23 +26,32 @@ func GetOutboundIP() string {
 
 func master_address() string{
 	
+    min := 0
     resp := ""
     
-    min := uint32(4294967294)
-    
-    min = uint32(0)
 
 	for ip, val := range peer_list {
 		
 		    //fmt.Println("IP:",ip," INT:",val)
 		
-	        if (val > min) {
-	            min = val
+	        if (val.Uptime > min) {
+	            min = val.Uptime
 	            resp = ip
 	        }
 	}
 
     master_host = resp
+    
+    if(master_host==getoutboundip()){
+	    
+	    master = true;
+	    slave = false;
+	    
+    }else{
+	    
+	    master = false;
+	    slave = true;
+    }
 	
 	return resp
 	

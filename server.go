@@ -23,27 +23,26 @@ func start_server(){
 	http.HandleFunc("/stats", stats_handler)
 	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(http.Dir("./www/resources"))))
 	http.ListenAndServe(":15784", nil)
-	
-	
-	
+		
 }
 
 func stats_handler(w http.ResponseWriter, r *http.Request) { 
 	
-	data := `{"master": "`+master_host+`", "peers": "", "devices": ""}`
-	
-	//j,_ := json.Marshal(power_rating)
-    //fmt.Fprintf(w,string(j))
-    
-    
+	data := `{"master": "`+master_host+`", "peers": "", "devices": ""}`    
     value, _ := sjson.Set(data, "peers", peer_list)
     value2, _:= sjson.Set(value, "devices",power_rating)
     fmt.Fprintf(w,value2)
-
 	
 }
 
 func gui_handler(w http.ResponseWriter, r *http.Request) { 
+	
+	//if this is a slave, send to the master
+	if(master_host!="" && master_host!=getoutboundip()){
+		
+		w.Header().Set("Location","http://"+master_host+":15784/manage")
+		return
+	}
 	
 		
     t, err := template.ParseFiles("www/index.html") //parse the html file homepage.html

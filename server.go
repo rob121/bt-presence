@@ -18,20 +18,86 @@ import (
 func start_server(){
 	
 	fmt.Println("Starting app server")
-	http.HandleFunc("/", server_handler)
+
+	http.HandleFunc("/deviceform", gui_device_handler)
 	http.HandleFunc("/manage", gui_handler)
+	http.HandleFunc("/devices",device_handler)
 	http.HandleFunc("/stats", stats_handler)
 	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(http.Dir("./www/resources"))))
+	http.HandleFunc("/", server_handler)
 	http.ListenAndServe(":15784", nil)
 		
 }
 
 func stats_handler(w http.ResponseWriter, r *http.Request) { 
 	
-	data := `{"master": "`+master_host+`", "peers": "", "devices": ""}`    
+	data := `{"master": "`+master_host+`", "peers": "", "devices": "","hosts":""}`    
     value, _ := sjson.Set(data, "peers", peer_list)
-    value2, _:= sjson.Set(value, "devices",power_rating)
-    fmt.Fprintf(w,value2)
+    value2, _:= sjson.Set(value, "devices",devices)
+    value3, _:= sjson.Set(value2, "hosts",power_rating)
+    fmt.Fprintf(w,value3)
+	
+}
+
+
+func device_handler(w http.ResponseWriter, r *http.Request) { 
+	
+	data := `{"devices": ""}`    
+    value, _ := sjson.Set(data, "devices", devices)
+    fmt.Fprintf(w,value)
+	
+}
+
+type data struct {
+  Devices map[string]string
+}
+
+func gui_device_handler(w http.ResponseWriter, r *http.Request) { 
+	
+	
+	if(r.Method=="POST"){
+		
+		//save here
+		
+	    if err := r.ParseForm(); err != nil {
+            fmt.Fprintf(w, "ParseForm() err: %v", err)
+            return
+        }
+        
+        dev := r.Form["devices"][0]
+       
+		devi := strings.Split(dev,"\n")
+		
+		if(len(devi)>0){
+		
+		devices = make(map[string]string)//clear it out
+		
+		for _,v := range devi {
+		
+			devices[v] = v			
+		}
+		
+		}
+
+		
+	}
+	
+	
+	
+    t, err := template.ParseFiles("www/form.html") //parse the html file homepage.html
+    
+    if err != nil { // if there is an error
+  	  fmt.Print("template parsing error: ", err) // log it
+  	}
+  	
+    err = t.Execute(w,data{Devices:devices})
+    
+    if err != nil { // if there is an error
+  	  fmt.Print("template executing error: ", err) //log it
+  	}
+  	
+  
+	
 	
 }
 
@@ -41,6 +107,13 @@ func gui_handler(w http.ResponseWriter, r *http.Request) {
 	if(master_host!="" && master_host!=getoutboundip()){
 	    fmt.Println("I am not the master, redirecting to master")
 		http.Redirect(w, r, "http://"+master_host+":15784/manage", 302)
+		return
+	}
+	
+	
+    if(len(devices)<1){
+	   
+		http.Redirect(w, r, "/deviceform", 302)
 		return
 	}
 	

@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard 3</title>
+    <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
     <link href="resources/css/font-face.css" rel="stylesheet" media="all">
@@ -297,7 +297,7 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="statistic__item statistic__item--orange">
                                 <h2 class="number devices">N/A</h2>
-                                <span class="desc">devices tracked</span>
+                                <a href="/deviceform" class="desc">devices tracked</a>
                                 <div class="icon">
                                     <i class="zmdi zmdi-shopping-cart"></i>
                                 </div>
@@ -419,12 +419,17 @@
 			      
 			       jQuery(".devices").html(Object.keys(resp.devices).length)
 			       
+			   
+			   }
+			   
+			   if(resp.hosts){    
 			       
-			       keys = Object.keys(resp.devices);
+			       
+			       keys = Object.keys(resp.hosts);
 			       
 			       if(keys.length>0){
 			       
-			       obj = resp.devices[keys[0]]
+			       obj = resp.hosts[keys[0]]
 			       
 			       jQuery("#nodes").html("");
 			       

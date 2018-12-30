@@ -53,7 +53,7 @@ func master_address() string{
     }else{
 	    
 	     fmt.Println("I AM THE SLAVE")
-	    
+	    //retrieve the devices?
 	    master = false;
 	    slave = true;
     }

@@ -4,10 +4,13 @@ import (
     "fmt"
     "os/exec"
     "strings"
-    "bufio"
-    "os"
+   // "bufio"
+   // "os"
+    "io/ioutil"
     "time"
     "strconv"
+    "net/http"
+    "github.com/tidwall/gjson"
 )
 
 
@@ -67,20 +70,36 @@ func convert_power(rssi string) int{
 
 func device_poller(){
 
-lines,err := devices_list()
+
 	
-if(err!=nil){}	
+
 	
 for {	
-
+	
+	
+  if(master_host!=""){	
+   
+   resp := httpGet("http://"+master_host+":15784/devices")
+   
+   result := gjson.Get(resp,"devices")
+   
+   result.ForEach(func(key, value gjson.Result) bool {
+	v := value.String()
+	devices[v]=v
+	return true // keep iterating
+   })
+   
+  } 
+  
+  	
+  //devices is a map that must be populated
  // go func() {
-  for _,id := range lines {
+  for _,id := range devices {
 	  
 	fmt.Printf("Scanning for %s%s",id,"\n")  
     strength := device_strength(id)
     time.Sleep(10 * time.Second)
     client_send(id,strength)
-    
     
        
   }
@@ -92,24 +111,32 @@ for {
 	
 }
 
-func devices_list() ([]string, error) { 
-	
-  path := device_file
 
-  file, err := os.Open(path)
-  if err != nil {
-    return nil, err
-  }
-  defer file.Close()
 
-  var lines []string
-  scanner := bufio.NewScanner(file)
-  for scanner.Scan() {
-    lines = append(lines, scanner.Text())
-  }
-  return lines, scanner.Err()
-}
+func httpGet(url string) string{
 	
+	client := http.Client{
+		Timeout: time.Second * 2, // Maximum of 2 secs
+	}
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		
+	}
+
+	req.Header.Set("User-Agent", "device-client")
+
+	res, getErr := client.Do(req)
+	if getErr != nil {
+		
+	}
+
+	body, _ := ioutil.ReadAll(res.Body)
+	
+	return string(body)
+	
+	
+}	
 	
 
 

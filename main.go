@@ -31,9 +31,9 @@ func main() {
  
  go start_server()
  
-// go discover_peers()
+ go discover_peers()
 
- //go device_poller()
+ go device_poller()
 
  select {}//here to keep it up and running
 	

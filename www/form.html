@@ -291,7 +291,8 @@
                                         <form action="/deviceform" method="post" novalidate="novalidate">
                                             <div class="form-group">
                                                 
-                                                <textarea rows="20" cols="30" class="form-control" name="devices" placeholder="mac addresses one per line">{{range .Devices}}{{.}}{{end}}</textarea>
+                                                <textarea rows="20" cols="30" class="form-control" name="devices" placeholder="mac addresses one per line">{{range .Devices}}{{.}}
+{{end}}</textarea>
                                             
                                             <div>
                                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">

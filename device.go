@@ -85,7 +85,7 @@ for {
    
    result.ForEach(func(key, value gjson.Result) bool {
 	v := value.String()
-	devices[v]=v
+	devices[strings.TrimSpace(v)]=strings.TrimSpace(v)
 	return true // keep iterating
    })
    

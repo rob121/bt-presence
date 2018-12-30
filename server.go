@@ -74,7 +74,7 @@ func gui_device_handler(w http.ResponseWriter, r *http.Request) {
 		
 		for _,v := range devi {
 		
-			devices[v] = v			
+			devices[strings.TrimSpace(v)]=strings.TrimSpace(v)		
 		}
 		
 		}

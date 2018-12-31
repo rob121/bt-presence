@@ -4,6 +4,6 @@ cd /srv
 rm -rf master.zip*
 wget "https://github.com/rob121/bt-presence/archive/master.zip"
 unzip master.zip
-cd bt-presence/util
+cd bt-presence-master/util
 sh install
 cd /opt/devicepresence

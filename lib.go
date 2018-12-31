@@ -48,6 +48,11 @@ func get_devices() map[string]string{
  	}
  	
  	
+ 	if(len(devices)<1){
+		return make(map[string]string)
+	}
+ 	
+ 	
  	return devices
 	
 	
@@ -55,6 +60,10 @@ func get_devices() map[string]string{
 }
 
 func set_devices(devices map[string]string){
+	
+	if(len(devices)<1){
+		return
+	}
 	
 	dataFile, err := os.Create("devices.gob")
     defer dataFile.Close()

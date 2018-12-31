@@ -77,7 +77,7 @@ func device_poller(){
 for {	
 	
 	
-  if(master_host!=""){	
+  if(master_host!="" && master_host!=getoutboundip()){	//we have a master, and we are npt it!
    
    resp := httpGet("http://"+master_host+":15784/devices")
    

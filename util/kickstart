@@ -7,4 +7,5 @@ wget "https://github.com/rob121/bt-presence/archive/master.zip"
 unzip master.zip
 cd ~/bt-presence-master/util
 sh install
+rm -rf ~/bt-presence-master
 cd /opt/devicepresence

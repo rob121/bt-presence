@@ -57,7 +57,6 @@ func setup(){
  peer_list = make(map[string]Host)
  
  
-  
-
+ 
 	
 }

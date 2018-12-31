@@ -5,6 +5,8 @@ import (
     "net"
     "time"
     "fmt"
+    "os"
+    "encoding/gob"
 )
 
 
@@ -23,6 +25,50 @@ func getoutboundip() string {
     localAddr := conn.LocalAddr().(*net.UDPAddr)
 
     return localAddr.IP.String()
+}
+
+func get_devices() map[string]string{
+	
+	
+	dataFile, err := os.OpenFile("devices.gob", os.O_RDONLY|os.O_CREATE, 0666)
+	
+	defer dataFile.Close()
+
+ 	if err != nil {
+ 		fmt.Println(err)
+ 		return nil
+ 	}
+
+ 	dataDecoder := gob.NewDecoder(dataFile)
+ 	err = dataDecoder.Decode(&devices)
+
+ 	if err != nil {
+ 		fmt.Println(err)
+ 		return nil
+ 	}
+ 	
+ 	
+ 	return devices
+	
+	
+	
+}
+
+func set_devices(devices map[string]string){
+	
+	dataFile, err := os.Create("devices.gob")
+    defer dataFile.Close()
+ 	if err != nil {
+ 		fmt.Println(err)
+ 		return 
+ 	}
+
+      // serialize the data
+ 	dataEncoder := gob.NewEncoder(dataFile)
+ 	dataEncoder.Encode(devices)
+
+ 	
+ 	
 }
 
 func master_address() string{

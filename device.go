@@ -86,9 +86,14 @@ for {
    result.ForEach(func(key, value gjson.Result) bool {
 	v := value.String()
 	devices[strings.TrimSpace(v)]=strings.TrimSpace(v)
+	
 	return true // keep iterating
    })
    
+   if(len(devices)>0){
+   set_devices(devices)//persist to disk in case this node becomes master in the future
+   }
+  
   } 
   
   	

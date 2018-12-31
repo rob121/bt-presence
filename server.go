@@ -55,6 +55,8 @@ type data struct {
 func gui_device_handler(w http.ResponseWriter, r *http.Request) { 
 	
 	
+	devices = get_devices()
+	
 	if(r.Method=="POST"){
 		
 		//save here
@@ -76,6 +78,8 @@ func gui_device_handler(w http.ResponseWriter, r *http.Request) {
 		
 			devices[strings.TrimSpace(v)]=strings.TrimSpace(v)		
 		}
+		
+		set_devices(devices)
 		
 		}
 

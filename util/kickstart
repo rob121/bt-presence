@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /srv
+cd ~/
 rm -rf master.zip*
 rm -rf bt-presence-master
 wget "https://github.com/rob121/bt-presence/archive/master.zip"

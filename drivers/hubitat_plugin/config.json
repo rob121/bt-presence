@@ -4,10 +4,12 @@
   "devices": {
     "34:08:BC:61:8B:0D": {
       "office": "47",
-      "master": "112"
+      "master": "112",
+      "playroom": "363"
     },
     "34:7C:25:EF:30:95": {
-      "master": "113"
+      "master": "113",
+      "playroom": "364"
     }
   }
 }

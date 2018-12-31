@@ -103,7 +103,7 @@ for {
 	  
 	fmt.Printf("Scanning for %s%s",id,"\n")  
     strength := device_strength(id)
-    time.Sleep(10 * time.Second)
+    time.Sleep(5 * time.Second)
     client_send(id,strength)
     
        
